@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, Image, Dimensions, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, Pressable, useAnimatedValue } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-
+import { useNavigation } from '@react-navigation/native'
 import profile from '../../assets/profile.jpg'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const size = 24
 const color = '#b3b3b3'
@@ -14,8 +16,14 @@ let width = Dimensions.get('window').width; //full width
 let height = Dimensions.get('window').height; //full height
 
 const Profile = () => {
+  const navigation = useNavigation()
 
   const [enableDarkTheme, setEnableDarkTheme] = useState(true)
+
+  const handleLogout = () => {
+    AsyncStorage.clear()
+    navigation.navigate('LoginSScreen')
+  }
 
   return (
     <View style={styles.container}>
@@ -53,7 +61,7 @@ const Profile = () => {
             <Text  style={styles.menuText}>Notifications</Text>
         </Pressable>
         <Pressable
-                  onPress={() => console.warn('Pressed')}
+                  onPress={handleLogout}
                   style={({ pressed }) => [
                     {
                       backgroundColor: pressed ? '#282828' : '#181818'

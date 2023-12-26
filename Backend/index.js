@@ -69,6 +69,7 @@ else{
 }
 })
 
+
 app.post('/otpverify',async(req,res)=>{
     let data=await user.findOne({_id:req.query.id})
     if (data){
