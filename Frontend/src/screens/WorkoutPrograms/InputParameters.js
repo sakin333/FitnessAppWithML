@@ -170,7 +170,6 @@ const InputParameters = () => {
 
       if(result) {
         setLoading(false)
-        console.warn(result)
         await AsyncStorage.setItem('userInputs', JSON.stringify(result))
         // await AsyncStorage.setItem('isData', 'abc')
         navigation.navigate('WorkoutPrograms', {result})
