@@ -10,7 +10,6 @@ import progressGradientBanner from '../../assets/gradient3.jpg';
 import exerciseBannerImage from '../../assets/exerciseGirl.png';
 import dietBannerImage from '../../assets/diet.png';
 import progressBannerImage from '../../assets/progress.png';
-import staticWorkout from '../../assets/staticWorkout.png'
 
 const ScreenHeight = Dimensions.get("window").height;
 
@@ -38,7 +37,7 @@ const Home = () => {
             bannerImage={dietBannerImage}
             title={titles.diet}
             type='DIET'
-            screenName='DietPlan'
+            screenName='MaintainCalorie'
           />
           <Banner
             imageBackground={progressGradientBanner}

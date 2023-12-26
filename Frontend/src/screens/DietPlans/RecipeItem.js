@@ -11,9 +11,10 @@ const RecipeItem = ({ recipe }) => {
       <Text>Source: {recipe.source}</Text>
       <Text>Yield: {recipe.yield}</Text>
       <Text>Calories: {recipe.calories.toFixed(2)}</Text>
-      <Text>Cuisine: {recipe.cuisineType.join(', ')}</Text>
-      <Text>Meal Type: {recipe.mealType.join(', ')}</Text>
-      <Text>Dish Type: {recipe.dishType.join(', ')}</Text>
+      <Text>Cuisine: {recipe?.cuisineType.join(', ')}</Text>
+      <Text>Meal Type: {recipe?.mealType.join(', ')}</Text>
+      <Text>Dish Type: {recipe?.dishType.join(', ')}</Text>
+      <Text>Health Label: {recipe?.healthLabels.join(', ')}</Text>
       <Text style={styles.ingredientsTitle}>Ingredients:</Text>
       <View style={styles.ingredientsList}>
         {recipe.ingredients.map((ingredient, index) => (

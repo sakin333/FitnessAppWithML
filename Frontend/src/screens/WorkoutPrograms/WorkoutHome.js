@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image,ScrollView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image,ScrollView, ImageBackground } from "react-native";
 import React ,{useContext} from "react";
 import FitnessCards from "../../components/Card/FitnessCards";
 import { FitnessItems } from "../../components/Context/Context";
@@ -87,7 +87,7 @@ const WorkoutHome = () => {
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image
+          <ImageBackground
             style={{
               width: "90%",
               height: 120,
@@ -97,7 +97,9 @@ const WorkoutHome = () => {
             source={{
               uri: "https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_842,ar_1.2,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/sku-card-widget/gold2.png",
             }}
-          />
+          >
+            <Text>30 Days Workout Plan</Text>
+          </ImageBackground>
         </View>
       </View>
       <FitnessCards/>

@@ -1,10 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import Recipes from './Recipes'
+import Recipess from './Recipes22'
 
-const DietPlan = () => {
+const DietPlan = ({ calculatedCalorie }) => {
+
   return (
-    <Recipes />
+    <Recipess calculatedCalorie={calculatedCalorie} />
   )
 }
 

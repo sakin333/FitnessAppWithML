@@ -159,7 +159,7 @@ const InputParameters = () => {
         "Injury": injury,
         "Current_fitness_level": fitnessLevel
       }
-      let result = await fetch('http://5.5.4.224:4000/userInput' , {
+      let result = await fetch('http://192.168.1.67:4000/userInput' , {
         method: "post",
         body: JSON.stringify(userObject),
         headers: {

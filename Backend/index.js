@@ -14,6 +14,8 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
+
+
 app.post('/userInput', async (req,res) => {
     let intensityInputs = new IntensityLevel(req.body)
     let result = await intensityInputs.save()

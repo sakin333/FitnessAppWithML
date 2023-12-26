@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import RecipeItem from './RecipeItem';
 import CustomizedInput from '../../components/CustomizedInput/CustomizedInput';
 import { Picker } from '@react-native-picker/picker'
 import Slider from '@react-native-community/slider';
+import AddItem from '../../components/addItem/AddItem'
 
 const mealTypeItems = [
-  // {label: 'All Meals', value: '' },
   {label: 'Breakfast', value: 'breakfast' },
   {label: 'Brunch', value: 'brunch' },
   {label: 'Lunch/Dinner', value: 'lunch/dinner' },
@@ -14,17 +14,17 @@ const mealTypeItems = [
 ]
 
 const healthLabelsItems = [
-  // {label: 'None', value: '' },
+  {label: 'Select Health Labels', value: '' },
   {label: 'Alcohol-Cocktail', value: 'alcohol-cocktail' },
   {label: 'Alcohol-Free', value: 'alcohol-free' },
-  {label: 'Celery-Free', value: '	celery-free' },
+  {label: 'Celery-Free', value: 'celery-free' },
   {label: 'Crustcean-Free', value: 'crustacean-free' },
   {label: 'Dairy-Free', value: 'dairy-free' },
   {label: 'Egg-Free', value: 'egg-free' },
   {label: 'Fish-Free', value: 'fish-free' },
   {label: 'Gluten-Free', value: 'gluten-free' },
   {label: 'Keto-Friendly', value: 'keto-friendly' },
-  {label: '	Low Sugar', value: 'low-sugar' },
+  {label: 'Low Sugar', value: 'low-sugar' },
   {label: 'Lupine-Free', value: 'lupine-free' },
   {label: 'Mustard-Free', value: 'mustard-free' },
   {label: 'Peanut-Free', value: 'peanut-free' },
@@ -62,34 +62,65 @@ const cuisineTypeItems = [
   {label: 'South East Asian', value: 'south east asian'},
 ]
 
-const Recipes = () => {
+const Recipess = ({calculatedCalorie}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
-  const [calories, setCalories] = useState(2000)
+  const [calories, setCalories] = useState(calculatedCalorie)
+  const [minCalories, setMinCalories] = useState(0)
+  const [maxCalories, setMaxCalories] = useState(4000)
 
   const [selectedHealthLabel, setSelectedHealthLabel] = useState([])
-  // const [selectedMealType, setSelectedMealType] = useState('')
+  const [selectedMealType, setSelectedMealType] = useState([])
   const [selectedCuisineType, setSelectedCuisineType] = useState([])
 
+  const handleRemove = (type, value) => {
+    if (type === 'healthLabel') {
+      setSelectedHealthLabel((prevLabels) => prevLabels.filter((label) => label.value !== value));
+    } else if (type === 'cuisineType') {
+      setSelectedCuisineType((prevTypes) => prevTypes.filter((type) => type.value !== value));
+    } else if (type === 'mealType') {
+      setSelectedMealType((prevTypes) => prevTypes.filter((type) => type.value !== value))
+    }
+  };
+
   const handleHealthLabel = (value) => {
-    setSelectedHealthLabel(value)
+      if(!selectedHealthLabel.some((item) => item.value === value)) {
+        setSelectedHealthLabel([
+            ...selectedHealthLabel,
+            { label: healthLabelsItems.find(item => item.value === value).label , value: value}
+        ])
+      }
     console.log(value)
   }
 
-  // const handleMealType = (value) => {
-  //   setSelectedMealType(value)
-  //   console.log(value)
-  // }
+  const handleMealType = (value) => {
+    if(!selectedMealType.some((item) => item.value === value)) {
+      setSelectedMealType([
+          ...selectedMealType,
+          { label: mealTypeItems.find(item => item.value === value).label, value: value}
+      ])
+    }
+    console.log(value)
+  }
 
   const handleCuisineType = (value) => {
-    setSelectedCuisineType(value)
+      if(!selectedCuisineType.some((item) => item.value === value)) {
+        setSelectedCuisineType([
+            ...selectedCuisineType,
+            {label: cuisineTypeItems.find(item => item.value === value).label, value: value}
+        ])
+      }
     console.log(value)
   }
 
   const handleCaloriesChange = (value) => {
+    let minCaloriesValue = value-200
+    let maxCaloriesValue = value+200
     setCalories(value)
+    setMinCalories(minCaloriesValue)
+    setMaxCalories(maxCaloriesValue)
   }
 
   const renderPickerItems = (items) =>
@@ -109,15 +140,19 @@ const Recipes = () => {
           const appKey = 'e3fe97a525230ea92f5324613bf0f2d0';
 
           // const trimmedMealType = selectedMealType.trim()
+          console.log(selectedHealthLabel)
+          console.log(selectedCuisineType)
+          let queryParams
+          if(selectedHealthLabel.length===0 && selectedCuisineType.length===0 && selectedMealType===0) {
+            console.log('inside if')
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&calories=${minCalories}-${maxCalories}`;      
+          }else {
+            console.log('inside else')
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&mealType=${selectedMealType.map(item => item.value).join('&')}&calories=${minCalories}-${maxCalories}`;
+          }
 
-          // const queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel}&mealType=${encodeURIComponent(trimmedMealType)}&cuisineType=${selectedCuisineType}&calories=${calories}`;
-          const queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel}&cuisineType=${selectedCuisineType}&calories=${calories}`;
-
-
-          const response = await fetch(`https://api.edamam.com/api/recipes/v2?${queryParams}`)
+          let response = await fetch(`https://api.edamam.com/api/recipes/v2?${queryParams}`)
           
-          // console.error('Error in fetch request. Response:', await response.text());
-
           if(!response.ok) {
               setLoading(false)
               throw new Error('Network response was not ok');
@@ -128,17 +163,16 @@ const Recipes = () => {
           setFilteredRecipes(
             data.hits.filter((recipe) => {
               const labelMatch = recipe.recipe.label.toLowerCase().includes(searchQuery.toLowerCase());
-              const caloriesMatch = recipe.recipe.calories >= calories-200 && recipe.recipe.calories <= calories+200; // Assuming calories is a numeric value
+              const caloriesMatch = recipe.recipe.calories <= calories 
           
-              return labelMatch && caloriesMatch;
+              return labelMatch && caloriesMatch
             })
           );
           
-
           setSearchQuery('');
-          setSelectedHealthLabel('');
-          // setSelectedMealType('');
-          setSelectedCuisineType('');
+          setSelectedHealthLabel([]);
+          setSelectedMealType([]);
+          setSelectedCuisineType([]);
           setLoading(false)
       } catch (error) {
           setError(true)
@@ -151,6 +185,7 @@ const Recipes = () => {
 
 
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.container}>
     {!searchQuery && (
       <Text style={{ color: 'red' }}>*Input Food Item</Text>
@@ -158,13 +193,19 @@ const Recipes = () => {
 
     <CustomizedInput value={searchQuery} setValue={(text) => setSearchQuery(text)} placeholder="Search for a food..." />
 
+    {/* {!selectedHealthLabel.length===0 && <AddItem name="Health Label" type={selectedHealthLabel} onRemove={(value) => handleRemove('healthLabel', value)} />} */}
+    <AddItem name="Health Label" type={selectedHealthLabel || []} onRemove={(value) => handleRemove('healthLabel', value)} />
     <Picker selectedValue={selectedHealthLabel} onValueChange={handleHealthLabel} style={styles.picker}>
       {renderPickerItems(healthLabelsItems)}
     </Picker>
 
-    {/* <Picker selectedValue={selectedMealType} onValueChange={handleMealType} style={styles.picker}>
+    <AddItem name="Meal Type" type={selectedMealType || []} onRemove={(value) => handleRemove('mealType', value)} />
+    <Picker selectedValue={selectedMealType} onValueChange={handleMealType} style={styles.picker}>
       {renderPickerItems(mealTypeItems)}
-    </Picker> */}
+    </Picker>
+
+    {/* {!selectedCuisineType.length===0 && <AddItem name="Cuisine Type" type={selectedCuisineType} onRemove={(value) => handleRemove('cuisineType', value)} />} */}
+    <AddItem name="Cuisine Type" type={selectedCuisineType || []} onRemove={(value) => handleRemove('cuisineType', value)} />
     <Picker selectedValue={selectedCuisineType} onValueChange={handleCuisineType} style={styles.picker}>
       {renderPickerItems(cuisineTypeItems)}
     </Picker>
@@ -194,15 +235,14 @@ const Recipes = () => {
             data={filteredRecipes}
             keyExtractor={(item) => item.recipe.uri}
             renderItem={({ item }) => (
-              <TouchableOpacity>
                 <RecipeItem recipe={item.recipe} />
-              </TouchableOpacity>
             )}
           />
         )}
       </>
     )}
   </View>
+  </ScrollView>
   )
 }
 
@@ -246,4 +286,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Recipes;
+export default Recipess;
