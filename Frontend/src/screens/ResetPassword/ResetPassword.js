@@ -13,27 +13,26 @@ const ResetPassword = () => {
   const userid=route.params?.userid;
 
   const onResetPassword =async () => {
-    // if (
-    //   password!=confirmPassword ||
-    //   password.length <= 5 || confirmPassword.length<=5
-    // ) {
-    //   setErrors(true);
-    // }
-    // else{
-    //   let result = await fetch(`http://172.17.224.1:4001/resetpassword?id=${userid}`, {
-    //     method: "post",
-    //     body: JSON.stringify({password }),
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    //   result = await result.json();
-    //   if(result.success===true){
-    //      navigation.navigate('LogIn')
-    //   }
-    //   else if(result.success===false){
-    //     console.warn(result.error)
-    //   }
-    // }
-    console.warn('reset pressed')
+    if (
+      password!=confirmPassword ||
+      password.length <= 5 || confirmPassword.length<=5
+    ) {
+      setErrors(true);
+    }
+    else{
+      let result = await fetch(`http://192.168.1.67:4000/resetpassword?id=${userid}`, {
+        method: "post",
+        body: JSON.stringify({password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      result = await result.json();
+      if(result.success===true){
+         navigation.navigate('LogIn')
+      }
+      else if(result.success===false){
+        console.warn(result.error)
+      }
+    }
   };
 
   const onBackToEmailPressed = () => {

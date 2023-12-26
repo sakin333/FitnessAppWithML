@@ -12,12 +12,11 @@ import { FitnessItems } from "../../components/Context/Context";
   
   const FitScreen = () => {
     const route = useRoute();
-    // console.log(route.params);
     const navigation = useNavigation();
     const [index, setIndex] = useState(0);
-    const excersise = route.params.excersises;
-    const current = excersise[index];
-    // console.log(current, "first excersise");
+    const exercises = route.params.exercises;
+    console.log('from fitsccree',exercises)
+    const current = exercises[index];
   
     const {
       completed,
@@ -29,12 +28,12 @@ import { FitnessItems } from "../../components/Context/Context";
       setWorkout,
       workout,
     } = useContext(FitnessItems);
-    console.log(completed, "completed excersise");
+    console.log(completed, "completed exercises");
     return (
       <SafeAreaView>
         <Image
           style={{ width: "100%", height: 370 }}
-          source={{ uri: current.image }}
+          source={{ uri: `http://192.168.1.67:4000${current.gif_path}` }}
         />
   
         <Text
@@ -58,12 +57,12 @@ import { FitnessItems } from "../../components/Context/Context";
             fontWeight: "bold",
           }}
         >
-          x{current.sets}
+          {current.reps ? `x${current.reps}` : `${current.time}sec`}
         </Text>
-        {index + 1 >= excersise.length ? (
+        {index + 1 >= exercises.length ? (
           <Pressable
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.navigate("WorkoutHome");
             }}
             style={{
               backgroundColor: "blue",
@@ -153,10 +152,10 @@ import { FitnessItems } from "../../components/Context/Context";
               PREV
             </Text>
           </Pressable>
-          {index + 1 >= excersise.length ? (
+          {index + 1 >= exercises.length ? (
             <Pressable
               onPress={() => {
-                navigation.navigate("Home");
+                navigation.navigate("WorkoutHome");
               }}
               style={{
                 backgroundColor: "green",

@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, SafeAreaView, Image,ScrollView, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image,ScrollView, ImageBackground, TouchableOpacity } from "react-native";
 import React ,{useContext} from "react";
 import FitnessCards from "../../components/Card/FitnessCards";
 import { FitnessItems } from "../../components/Context/Context";
+import { useNavigation } from "@react-navigation/native";
 
 
 const WorkoutHome = () => {
+  const navigation = useNavigation()
   const {
    
     minutes,
@@ -13,6 +15,10 @@ const WorkoutHome = () => {
 
     workout,
   } = useContext(FitnessItems);
+
+  const handle30daysworkout = () => {
+    navigation.navigate('Workout30days')
+  }
 
   return (
     <ScrollView style={{marginTop:40}}>
@@ -25,7 +31,7 @@ const WorkoutHome = () => {
           marginBottom:50
         }}
       >
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18, textAlign: 'center' }}>
           HOME WORKOUT
         </Text>
 
@@ -86,20 +92,22 @@ const WorkoutHome = () => {
           </View>
         </View>
 
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <ImageBackground
-            style={{
-              width: "90%",
-              height: 120,
-              marginTop: 20,
-              borderRadius: 7,
-            }}
-            source={{
-              uri: "https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_842,ar_1.2,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/sku-card-widget/gold2.png",
-            }}
-          >
-            <Text>30 Days Workout Plan</Text>
-          </ImageBackground>
+        <View style={{justifyContent: "center", alignItems: "center", marginHorizontal: 10 , borderRadius: 5, overflow: 'hidden'}}>
+          <TouchableOpacity onPress={handle30daysworkout}>
+            <ImageBackground
+              style={{
+                width: "100%",
+                height: 140,
+                borderRadius: 5,
+                justifyContent: 'center',
+              }}
+              source={{
+                uri: "https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_842,ar_1.2,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/sku-card-widget/gold2.png",
+              }}
+            >
+              <Text style={{color: 'white', fontSize: 36, textAlign: 'center', fontWeight: 'bold', paddingHorizontal: 10}}>30 Days Workout Plan</Text>
+            </ImageBackground>
+          </TouchableOpacity>
         </View>
       </View>
       <FitnessCards/>

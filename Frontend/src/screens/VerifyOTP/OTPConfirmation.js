@@ -10,31 +10,30 @@ const OTPConfirmation = () => {
   const navigation = useNavigation()
   const route=useRoute()
   const userid=route.params?.userid;
-  // console.warn(userid)
-//   const onResendOTP = async() => {
-//     let result = await fetch(`http://172.17.224.1:4001/resendotp?id=${userid}`, {
-//       method: "post"});
-//     result=await result.json();
-//     if(result.success===true){
-//       setError(false)
-//     }
-//   };
+  console.warn(userid)
+  const onResendOTP = async() => {
+    let result = await fetch(`http://192.168.1.67:4000/resendotp?id=${userid}`, {
+      method: "post"});
+    result=await result.json();
+    if(result.success===true){
+      setError(false)
+    }
+  };
 
   const onVerifyOTP = async() => {
-    // let result = await fetch(`http://172.17.224.1:4001/otpverify?id=${userid}`, {
-    //     method: "post",
-    //     body: JSON.stringify({otp}),
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    //   result=await result.json();
-    //   if(result.success===true){
-    //      navigation.navigate('LogIn')
-    //   }
-    //   else if(result.success===false){
-    //     console.warn("Wrong OTP")
-    //     setError(true)
-    //   }
-    console.warn('otp pressed')
+    let result = await fetch(`http://192.168.1.67:4000/otpverify?id=${userid}`, {
+        method: "post",
+        body: JSON.stringify({otp}),
+        headers: { "Content-Type": "application/json" },
+      });
+      result=await result.json();
+      if(result.success===true){
+         navigation.navigate('LogIn')
+      }
+      else if(result.success===false){
+        console.warn("Wrong OTP")
+        setError(true)
+      }
   };
 
   return (

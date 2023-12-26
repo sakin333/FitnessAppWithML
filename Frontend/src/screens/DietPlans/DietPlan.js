@@ -3,10 +3,12 @@ import React from 'react'
 import Recipes from './Recipes'
 import Recipess from './Recipes22'
 
-const DietPlan = ({ calculatedCalorie }) => {
+const DietPlan = ({ route }) => {
+
+  const result = route.params?.calculatedCalorie
 
   return (
-    <Recipess calculatedCalorie={calculatedCalorie} />
+    <Recipess calculatedCalorie={result} />
   )
 }
 

@@ -5,7 +5,7 @@ import CustomButton from '../../components/CustomButtons/CustomButton'
 import CustomizedInput from '../../components/CustomizedInput/CustomizedInput'
 
 import { useNavigation } from '@react-navigation/native'
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
 
@@ -14,28 +14,27 @@ const [password, setPassword] = useState('')
 
 const navigation = useNavigation()
 
-// useEffect(()=>{
-//     let data=AsyncStorage.getItem('user');
-//     if(data){
-//         navigation.navigate('Home')
-//     }
-// },[])
+useEffect(()=>{
+    let data=AsyncStorage.getItem('user');
+    if(data){
+        navigation.navigate('HomeScreen')
+    }
+},[])
 
 const onLogInPressed = async() => {
-    // let result = await fetch("http://172.17.224.1:4001/login", {
-    //     method: "post",
-    //     body: JSON.stringify({email,password}),
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    //   result = await result.json();
-    // if(result.success===true){
-    //     // await AsyncStorage.setItem('user', JSON.stringify(result.user));
-    //     navigation.navigate('Home')
-    // }
-    // else if(result.success===false){
-    //     console.warn(result.error)
-    // }
-    console.warn('Login Pressed')
+    let result = await fetch("http://192.168.1.67:4000/login", {
+        method: "post",
+        body: JSON.stringify({email,password}),
+        headers: { "Content-Type": "application/json" },
+      });
+      result = await result.json();
+    if(result.success===true){
+        await AsyncStorage.setItem('user', JSON.stringify(result.user));
+        navigation.navigate('Home')
+    }
+    else if(result.success===false){
+        console.warn(result.error)
+    }
     navigation.navigate('HomeScreen')
 }
 

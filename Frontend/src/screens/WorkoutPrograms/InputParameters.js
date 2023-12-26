@@ -193,7 +193,7 @@ const InputParameters = () => {
 
   return (
 <View style={styles.container}>
-  {loading ? <Text style={{color: 'white'}}>Generating suitable workouts...</Text> : (
+  {loading ? <Text style={{color: 'white', fontSize: 16}}>Generating 30 days workout plan...</Text> : (
     <>
   <Text style={styles.title}>Please Enter the following</Text>
 

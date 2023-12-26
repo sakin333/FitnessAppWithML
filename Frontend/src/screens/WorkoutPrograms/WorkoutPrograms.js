@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native'
 import React from 'react'
 import Home from './WorkoutHome'
 
@@ -7,8 +7,8 @@ const WorkoutPrograms = ({ route }) => {
   const result = route.params?.result
 
   return (
-    <View>
-      <Text>WorkoutPrograms</Text>
+    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
       {/* {result && (
         <View>
           <Text style={{fontSize: 32, textAlign: 'center'}}>Intensity: {result.Intensity}</Text>
@@ -16,7 +16,17 @@ const WorkoutPrograms = ({ route }) => {
       )} */}
       <Home />
     </View>
+    </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#181818',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default WorkoutPrograms

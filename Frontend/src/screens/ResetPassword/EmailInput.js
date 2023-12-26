@@ -11,20 +11,19 @@ const EmailInput = ({ }) => {
   const navigation = useNavigation()
 
   const onContinue = async() => {
-    // const phonenumber='+977'+phone;
-    // let result = await fetch("http://172.17.224.1:4001/forgetpassword", {
-    //   method: "post",
-    //   body: JSON.stringify({phonenumber}),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-    // result = await result.json();
-    // if(result.success===true){
-    // navigation.navigate('OTPConfirmation2',{userid:result.result._id})
-    // }
-    // else if(result.success===false){
-    //   console.warn(result.error)
-    // }
-    console.warn('Continue pressed')
+    const phonenumber='+977'+phone;
+    let result = await fetch("http://192.168.1.67:4000/forgetpassword", {
+      method: "post",
+      body: JSON.stringify({phonenumber}),
+      headers: { "Content-Type": "application/json" },
+    });
+    result = await result.json();
+    if(result.success===true){
+    navigation.navigate('OTPConfirmation2',{userid:result.result._id})
+    }
+    else if(result.success===false){
+      console.warn(result.error)
+    }
     navigation.navigate('ResetPassword')
   };
 

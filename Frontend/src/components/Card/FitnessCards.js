@@ -1,20 +1,24 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image, ScrollView } from "react-native";
 import React from "react";
 import fitness from "../data/fitness";
 // import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from "@react-navigation/native";
+import Workouts from "../data/workouts";
 
 const FitnessCards = () => {
-  const FitnessData = fitness;
+  // const FitnessData = fitness;
+  const FitnessData = Workouts()
+  console.log('from fitnesscard',FitnessData)
   const navigation = useNavigation();
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View>
       {FitnessData.map((item, key) => (
         <Pressable
         onPress={() => navigation.navigate("WorkOutScreen",{
           image:item.image,
-          excersises:item.excersises,
+          exercises:item.exercises,
           id:item.id,
         })}
           style={{alignItems: "center", justifyContent: "center", margin: 10 }}
@@ -51,6 +55,7 @@ const FitnessCards = () => {
         </Pressable>
       ))}
     </View>
+    </ScrollView>
   );
 };
 

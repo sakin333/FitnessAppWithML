@@ -7,6 +7,7 @@ import Slider from '@react-native-community/slider';
 import AddItem from '../../components/addItem/AddItem'
 
 const mealTypeItems = [
+  {label: 'Select Meal Type', value: ''},
   {label: 'Breakfast', value: 'breakfast' },
   {label: 'Brunch', value: 'brunch' },
   {label: 'Lunch/Dinner', value: 'lunch/dinner' },
@@ -39,6 +40,7 @@ const healthLabelsItems = [
 ]
 
 const cuisineTypeItems = [
+  {label: 'Select Cusine Types', value: '' },
   {label: 'World', value: 'world'},
   {label: 'American', value: 'american'},
   {label: 'Asian', value: 'asian'},
@@ -68,11 +70,11 @@ const Recipess = ({calculatedCalorie}) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [calories, setCalories] = useState(calculatedCalorie)
-  const [minCalories, setMinCalories] = useState(0)
-  const [maxCalories, setMaxCalories] = useState(4000)
+  // const [minCalories, setMinCalories] = useState(calculatedCalorie-200)
+  // const [maxCalories, setMaxCalories] = useState(calculatedCalorie+200)
 
   const [selectedHealthLabel, setSelectedHealthLabel] = useState([])
-  const [selectedMealType, setSelectedMealType] = useState([])
+  const [selectedMealType, setSelectedMealType] = useState('')
   const [selectedCuisineType, setSelectedCuisineType] = useState([])
 
   const handleRemove = (type, value) => {
@@ -80,8 +82,6 @@ const Recipess = ({calculatedCalorie}) => {
       setSelectedHealthLabel((prevLabels) => prevLabels.filter((label) => label.value !== value));
     } else if (type === 'cuisineType') {
       setSelectedCuisineType((prevTypes) => prevTypes.filter((type) => type.value !== value));
-    } else if (type === 'mealType') {
-      setSelectedMealType((prevTypes) => prevTypes.filter((type) => type.value !== value))
     }
   };
 
@@ -96,12 +96,7 @@ const Recipess = ({calculatedCalorie}) => {
   }
 
   const handleMealType = (value) => {
-    if(!selectedMealType.some((item) => item.value === value)) {
-      setSelectedMealType([
-          ...selectedMealType,
-          { label: mealTypeItems.find(item => item.value === value).label, value: value}
-      ])
-    }
+    setSelectedMealType(value)
     console.log(value)
   }
 
@@ -116,11 +111,11 @@ const Recipess = ({calculatedCalorie}) => {
   }
 
   const handleCaloriesChange = (value) => {
-    let minCaloriesValue = value-200
-    let maxCaloriesValue = value+200
+    // let minCaloriesValue = value-200
+    // let maxCaloriesValue = value+200
     setCalories(value)
-    setMinCalories(minCaloriesValue)
-    setMaxCalories(maxCaloriesValue)
+    // setMinCalories(minCaloriesValue)
+    // setMaxCalories(maxCaloriesValue)
   }
 
   const renderPickerItems = (items) =>
@@ -143,12 +138,14 @@ const Recipess = ({calculatedCalorie}) => {
           console.log(selectedHealthLabel)
           console.log(selectedCuisineType)
           let queryParams
-          if(selectedHealthLabel.length===0 && selectedCuisineType.length===0 && selectedMealType===0) {
+          if(selectedHealthLabel.length===0 && selectedCuisineType.length===0 && selectedMealType==='') {
             console.log('inside if')
-            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&calories=${minCalories}-${maxCalories}`;      
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&calories=${calories}`;      
           }else {
             console.log('inside else')
-            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&mealType=${selectedMealType.map(item => item.value).join('&')}&calories=${minCalories}-${maxCalories}`;
+            // queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&mealType=${selectedMealType}&calories=${minCalories}-${maxCalories}`;
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&mealType=${selectedMealType}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&calories=${calories}`;
+
           }
 
           let response = await fetch(`https://api.edamam.com/api/recipes/v2?${queryParams}`)
@@ -199,7 +196,6 @@ const Recipess = ({calculatedCalorie}) => {
       {renderPickerItems(healthLabelsItems)}
     </Picker>
 
-    <AddItem name="Meal Type" type={selectedMealType || []} onRemove={(value) => handleRemove('mealType', value)} />
     <Picker selectedValue={selectedMealType} onValueChange={handleMealType} style={styles.picker}>
       {renderPickerItems(mealTypeItems)}
     </Picker>

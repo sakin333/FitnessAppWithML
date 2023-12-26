@@ -24,38 +24,36 @@ import {useNavigation} from '@react-navigation/native';
     const navigation = useNavigation();
   
     const onSignUpPressed = async() => {
-      // if (
-      //   name.length <= 3 ||
-      //   password.length <= 5 ||
-      //   !rgexp.test(email) ||
-      //   age === '' ||
-      //   age <= 13 ||
-      //   age >= 70 ||
-      //   phnumber.length <= 9
-      // ) {
-      //   setErrors(true);
-      // } else {
-      //   let phonenumber=countryCode+phnumber;
-      //   let result = await fetch("http://172.17.224.1:4001/register", {
-      //     method: "post",
-      //     body: JSON.stringify({name, email, phonenumber, age,password }),
-      //     headers: { "Content-Type": "application/json" },
-      //   });
-      //   result = await result.json();
-      //   if (result.success === false) {
-      //     console.warn(result.error)
-      //   } else if (result.success===true) {
-      //     setUser(result.result._id)
-      //     navigation.navigate('OTPConfirmation',{userid:result.result._id});
-      //   }
-      // }
-      console.warn('signup pressed')
+      if (
+        name.length <= 3 ||
+        password.length <= 5 ||
+        !rgexp.test(email) ||
+        age === '' ||
+        age <= 13 ||
+        age >= 70 ||
+        phnumber.length <= 9
+      ) {
+        setErrors(true);
+      } else {
+        let phonenumber=countryCode+phnumber;
+        let result = await fetch("http://192.168.1.67:4000/register", {
+          method: "post",
+          body: JSON.stringify({name, email, phonenumber, age,password }),
+          headers: { "Content-Type": "application/json" },
+        });
+        result = await result.json();
+        if (result.success === false) {
+          console.warn(result.error)
+        } else if (result.success===true) {
+          setUser(result.result._id)
+          navigation.navigate('OTPConfirmation',{userid:result.result._id});
+        }
+      }
       navigation.navigate('OTPConfirmation')
     };
   
     const onLoginPressed = () => {
       navigation.navigate('LoginScreen');
-  
     };
   
     return (

@@ -48,15 +48,14 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
             size={28}
             color="white"
           />
-  
-          {route.params.excersises.map((item, index) => (
+          {route.params.exercises.map((item, index) => (
             <Pressable
               style={{ margin: 10, flexDirection: "row", alignItems: "center" }}
               key={index}
             >
               <Image
                 style={{ width: 90, height: 90 }}
-                source={{ uri: item.image }}
+                source={{ uri: `http://192.168.1.67:4000${item.gif_path}`}}
               />
   
               <View style={{ marginLeft: 10 }}>
@@ -65,7 +64,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
                 </Text>
   
                 <Text style={{ marginTop: 4, fontSize: 18, color: "gray" }}>
-                  x{item.sets}
+                  x{item.reps || item.time}
                 </Text>
               </View>
   
@@ -86,7 +85,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
         <Pressable
         onPress={() =>  {
           navigation.navigate("FitScreen",{
-            excersises:route.params.excersises,
+            exercises:route.params.exercises,
         })
         setCompleted([]);
         }}

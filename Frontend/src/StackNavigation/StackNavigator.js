@@ -20,6 +20,7 @@ import WorkOutScreen from '../screens/WorkoutPrograms/WorkoutScreen'
 import FitScreen from '../screens/WorkoutPrograms/FitScreen'
 import RestScreen from '../screens/WorkoutPrograms/RestScreen'
 import MaintainCalorie from '../components/MaintainenceCalorie/MaintainCalorie'
+import Workout30days from '../screens/WorkoutPrograms/Workout30days'
 
 const Stack = createNativeStackNavigator()
 
@@ -35,6 +36,7 @@ const StackNavigator = () => {
         <Stack.Screen name='HomeScreen' component={TabNavigator} />
         <Stack.Screen name='InputParameters' component={InputParameters} />
         <Stack.Screen name='WorkoutPrograms' component={WorkoutPrograms} />
+        <Stack.Screen name='Workout30days' component={Workout30days} />
         <Stack.Screen name='DietPlan' component={DietPlan} />
         <Stack.Screen name='MaintainCalorie' component={MaintainCalorie} />
         <Stack.Screen name='ProgressTracking' component={ProgressTracking} />
