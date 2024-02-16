@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import CustomButton from '../../components/CustomButtons/CustomButton';
 import CustomizedInput from '../../components/CustomizedInput/CustomizedInput';
 import { useNavigation,useRoute } from '@react-navigation/native';
+import { default_ip_address } from '../../constant/constant';
 
 const ResetPassword = () => {
   const [password, setNewPassword] = useState('');
@@ -20,14 +21,14 @@ const ResetPassword = () => {
       setErrors(true);
     }
     else{
-      let result = await fetch(`http://192.168.1.67:4000/resetpassword?id=${userid}`, {
+      let result = await fetch(`${default_ip_address}/resetpassword?id=${userid}`, {
         method: "post",
         body: JSON.stringify({password }),
         headers: { "Content-Type": "application/json" },
       });
       result = await result.json();
       if(result.success===true){
-         navigation.navigate('LogIn')
+         navigation.navigate('LoginScreen')
       }
       else if(result.success===false){
         console.warn(result.error)

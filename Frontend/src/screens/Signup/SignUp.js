@@ -10,6 +10,7 @@ import {
 import React, {useState} from 'react';
 import CustomButton from '../../components/CustomButtons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
+import { default_ip_address } from '../../constant/constant';
   
   const SignUp = () => {
     const [name, setUsername] = useState('');
@@ -36,7 +37,7 @@ import {useNavigation} from '@react-navigation/native';
         setErrors(true);
       } else {
         let phonenumber=countryCode+phnumber;
-        let result = await fetch("http://192.168.1.67:4000/register", {
+        let result = await fetch(`${default_ip_address}/register`, {
           method: "post",
           body: JSON.stringify({name, email, phonenumber, age,password }),
           headers: { "Content-Type": "application/json" },
@@ -49,7 +50,6 @@ import {useNavigation} from '@react-navigation/native';
           navigation.navigate('OTPConfirmation',{userid:result.result._id});
         }
       }
-      navigation.navigate('OTPConfirmation')
     };
   
     const onLoginPressed = () => {

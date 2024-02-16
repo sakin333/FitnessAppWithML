@@ -4,6 +4,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import CustomButton from '../../components/CustomButtons/CustomButton';
 import CustomizedInput from '../../components/CustomizedInput/CustomizedInput';
 import { useNavigation } from '@react-navigation/native';
+import { default_ip_address } from '../../constant/constant';
 
 const EmailInput = ({ }) => {
   const [phone, setPhone] = useState('');
@@ -12,7 +13,7 @@ const EmailInput = ({ }) => {
 
   const onContinue = async() => {
     const phonenumber='+977'+phone;
-    let result = await fetch("http://192.168.1.67:4000/forgetpassword", {
+    let result = await fetch(`${default_ip_address}/forgetpassword`, {
       method: "post",
       body: JSON.stringify({phonenumber}),
       headers: { "Content-Type": "application/json" },
@@ -24,7 +25,6 @@ const EmailInput = ({ }) => {
     else if(result.success===false){
       console.warn(result.error)
     }
-    navigation.navigate('ResetPassword')
   };
 
 

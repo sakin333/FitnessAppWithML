@@ -9,6 +9,7 @@ import {
   import React, { useState, useContext } from "react";
   import { useNavigation, useRoute } from "@react-navigation/native";
 import { FitnessItems } from "../../components/Context/Context";
+import { default_ip_address } from "../../constant/constant";
   
   const FitScreen = () => {
     const route = useRoute();
@@ -33,7 +34,7 @@ import { FitnessItems } from "../../components/Context/Context";
       <SafeAreaView>
         <Image
           style={{ width: "100%", height: 370 }}
-          source={{ uri: `http://192.168.1.67:4000${current.gif_path}` }}
+          source={{ uri: `${default_ip_address}${current.gif_path}` }}
         />
   
         <Text

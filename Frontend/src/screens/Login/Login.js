@@ -6,36 +6,68 @@ import CustomizedInput from '../../components/CustomizedInput/CustomizedInput'
 
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { default_ip_address } from '../../constant/constant'
 
 const Login = () => {
 
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
+const [error, setError] = useState(false)
 
 const navigation = useNavigation()
 
-useEffect(()=>{
-    let data=AsyncStorage.getItem('user');
-    if(data){
-        navigation.navigate('HomeScreen')
+const getMyObject = async () => {
+    try {
+      return await AsyncStorage.getItem('user')
+    } catch(error) {
+      throw new Error(error)
     }
+  }
+
+useEffect(()=>{
+    const checkAndNavigate = async () => {
+        try {
+          const data = await getMyObject();
+    
+          if (data) {
+            const parsedData = JSON.parse(data);
+            console.log("from here", parsedData);
+    
+            // Check if the parsed data has the expected structure or properties
+            if (parsedData) {
+              // navigation.navigate('HomeScreen');
+              navigation.navigate('InputParameters')
+            } 
+          }
+          // navigation.navigate('LoginScreen')
+        } catch (error) {
+          console.error('Error parsing data or navigating:', error);
+        }
+      };
+    
+      checkAndNavigate();
 },[])
 
 const onLogInPressed = async() => {
-    let result = await fetch("http://192.168.1.67:4000/login", {
+  if ( email === '' || password === '') {
+    setError(true)
+  }else {
+    console.log(default_ip_address)
+    let result = await fetch(`${default_ip_address}/login`, {
         method: "post",
         body: JSON.stringify({email,password}),
         headers: { "Content-Type": "application/json" },
       });
       result = await result.json();
     if(result.success===true){
-        await AsyncStorage.setItem('user', JSON.stringify(result.user));
-        navigation.navigate('Home')
+        await AsyncStorage.setItem('user', JSON.stringify(result.result));
+        navigation.navigate('HomeScreen')
+        // navigation.navigate('InputParameters')
     }
     else if(result.success===false){
         console.warn(result.error)
     }
-    navigation.navigate('HomeScreen')
+  }
 }
 
 const onSignupPressed = () => {
@@ -51,7 +83,21 @@ const onForgotPasswordPressed = () => {
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContent}>
     <View style={styles.root}>
         <Text style={styles.title}>Log-in</Text>
+        {error && email === '' ? (
+          <Text style={{color: 'red', left: -130}}>
+            *Enter Username
+          </Text>
+        ) : (
+          ''
+        )}
         <CustomizedInput placeholder="Email"  value={email} setValue={setEmail} keyboardType="email-address" />
+        {error && password === '' ? (
+          <Text style={{color: 'red', left: -130}}>
+            *Enter Password
+          </Text>
+        ) : (
+          ''
+        )}
         <CustomizedInput placeholder="Password"  value={password} setValue={setPassword} secureTextEntry={true} />
 
         <CustomButton text="Log In" onPress={onLogInPressed} />

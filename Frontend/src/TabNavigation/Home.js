@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Header from '../components/Header/Header';
 import Banner from '../components/Banners/Banner';
@@ -11,6 +11,8 @@ import exerciseBannerImage from '../../assets/exerciseGirl.png';
 import dietBannerImage from '../../assets/diet.png';
 import progressBannerImage from '../../assets/progress.png';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const ScreenHeight = Dimensions.get("window").height;
 
 const titles = {
@@ -20,10 +22,25 @@ const titles = {
 };
 
 const Home = () => {
+
+const [name, setName] = useState('')
+  
+useEffect(() => {
+  const getData = async () => {
+    let data = await AsyncStorage.getItem('user')
+    let parseData = JSON.parse(data)
+    if(parseData)  {
+      // console.log('local:',parseData)
+      setName(parseData.name)
+    }
+  }
+  getData()
+},[])
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <Header />
+        <Header name={name} />
         <View style={styles.banner}>
           <Banner
             imageBackground={exerciseGradientBanner}
@@ -37,7 +54,9 @@ const Home = () => {
             bannerImage={dietBannerImage}
             title={titles.diet}
             type='DIET'
-            screenName='MaintainCalorie'
+            // screenName='MaintainCalorie'
+            screenName='dummy'
+
           />
           <Banner
             imageBackground={progressGradientBanner}

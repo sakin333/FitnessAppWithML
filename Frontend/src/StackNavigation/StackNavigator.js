@@ -21,6 +21,14 @@ import FitScreen from '../screens/WorkoutPrograms/FitScreen'
 import RestScreen from '../screens/WorkoutPrograms/RestScreen'
 import MaintainCalorie from '../components/MaintainenceCalorie/MaintainCalorie'
 import Workout30days from '../screens/WorkoutPrograms/Workout30days'
+import OTPConfirmation2 from '../screens/VerifyOTP/OTPConfirmation2'
+import NutritionFacts from '../screens/DietPlans/NutritionFacts'
+import WorkoutPlan from '../screens/WorkoutPrograms/WorkoutPlan'
+import Recipess from '../screens/DietPlans/Recipes22'
+import RecipeItem from '../screens/DietPlans/RecipeItem'
+import DummyComponent from '../screens/Dummy'
+import CongratulationScreen from '../components/Congratulations/CongratulationScreen'
+import RecipesCard from '../screens/DietPlans/RecipesCard'
 
 const Stack = createNativeStackNavigator()
 
@@ -31,13 +39,13 @@ const StackNavigator = () => {
         <Stack.Screen name='SignUp' component={SignUp} />
         <Stack.Screen name='EmailInput' component={EmailInput} />
         <Stack.Screen name='ResetPassword' component={ResetPassword} />
-        <Stack.Screen name='OTPConfirmation' component={OTPConfirmation} />
-        
-        <Stack.Screen name='HomeScreen' component={TabNavigator} />
-        <Stack.Screen name='InputParameters' component={InputParameters} />
-        <Stack.Screen name='WorkoutPrograms' component={WorkoutPrograms} />
-        <Stack.Screen name='Workout30days' component={Workout30days} />
-        <Stack.Screen name='DietPlan' component={DietPlan} />
+        <Stack.Screen name='OTPConfirmation' component={OTPConfirmation}  />
+        <Stack.Screen name='OTPConfirmation2' component={OTPConfirmation2}  />
+        <Stack.Screen name='HomeScreen' component={TabNavigator}  />
+        <Stack.Screen name='InputParameters' component={InputParameters}  />
+        <Stack.Screen name='WorkoutPrograms' component={WorkoutPrograms}  />
+        <Stack.Screen name='Workout30days' component={Workout30days}  />
+        <Stack.Screen name='DietPlan' component={DietPlan}  />
         <Stack.Screen name='MaintainCalorie' component={MaintainCalorie} />
         <Stack.Screen name='ProgressTracking' component={ProgressTracking} />
         <Stack.Screen name='SmartwatchConnected' component={ConnectedSmartWatchScreen} />
@@ -49,6 +57,13 @@ const StackNavigator = () => {
         <Stack.Screen name='WorkOutScreen' component={WorkOutScreen} />
         <Stack.Screen name='FitScreen' component={FitScreen} />
         <Stack.Screen name='RestScreen' component={RestScreen} />
+        <Stack.Screen name='WorkoutPlan' component={WorkoutPlan}  />
+
+
+        <Stack.Screen name='dummy' component={DummyComponent} />
+        <Stack.Screen name='RecipeCard' component={RecipesCard} />
+        <Stack.Screen name='NutritionFacts' component={NutritionFacts} />
+        <Stack.Screen name='CongratulationScreen' component={CongratulationScreen} />
       </Stack.Navigator>
     )
 }

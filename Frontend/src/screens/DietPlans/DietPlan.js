@@ -8,7 +8,9 @@ const DietPlan = ({ route }) => {
   const result = route.params?.calculatedCalorie
 
   return (
+    <View style={{flex: 1, backgroundColor: '#181818'}}>
     <Recipess calculatedCalorie={result} />
+    </View>
   )
 }
 

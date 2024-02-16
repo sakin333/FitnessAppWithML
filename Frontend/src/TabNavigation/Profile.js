@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, Dimensions, Pressable, useAnimatedValue } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -20,9 +20,12 @@ const Profile = () => {
 
   const [enableDarkTheme, setEnableDarkTheme] = useState(true)
 
-  const handleLogout = () => {
-    AsyncStorage.clear()
-    navigation.navigate('LoginSScreen')
+  const handleLogout = async () => {
+    AsyncStorage.removeItem('user')
+    let data = await AsyncStorage.getItem('user')
+    let parsedData = JSON.parse(data)
+    console.log('from here',parsedData)
+    navigation.navigate('LoginScreen')
   }
 
   return (

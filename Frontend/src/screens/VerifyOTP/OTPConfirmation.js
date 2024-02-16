@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import CustomButton from '../../components/CustomButtons/CustomButton';
 import CustomizedInput from '../../components/CustomizedInput/CustomizedInput';
 import { useNavigation,useRoute } from '@react-navigation/native';
+import { default_ip_address } from '../../constant/constant';
 
 const OTPConfirmation = () => {
   const [otp, setOTP] = useState('');
@@ -12,7 +13,7 @@ const OTPConfirmation = () => {
   const userid=route.params?.userid;
   console.warn(userid)
   const onResendOTP = async() => {
-    let result = await fetch(`http://192.168.1.67:4000/resendotp?id=${userid}`, {
+    let result = await fetch(`${default_ip_address}/resendotp?id=${userid}`, {
       method: "post"});
     result=await result.json();
     if(result.success===true){
@@ -21,14 +22,14 @@ const OTPConfirmation = () => {
   };
 
   const onVerifyOTP = async() => {
-    let result = await fetch(`http://192.168.1.67:4000/otpverify?id=${userid}`, {
+    let result = await fetch(`${default_ip_address}/otpverify?id=${userid}`, {
         method: "post",
         body: JSON.stringify({otp}),
         headers: { "Content-Type": "application/json" },
       });
       result=await result.json();
       if(result.success===true){
-         navigation.navigate('LogIn')
+         navigation.navigate('LoginScreen')
       }
       else if(result.success===false){
         console.warn("Wrong OTP")

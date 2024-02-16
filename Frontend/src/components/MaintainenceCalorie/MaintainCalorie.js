@@ -71,8 +71,10 @@ const MaintainCalorie = () => {
     setActivityLevel(value);
   };
 
-  const navigateToRecipePage = () => {
-    navigation.navigate('DietPlan', { calculatedCalorie });
+  const navigateToRecipePage = async () => {
+    // navigation.navigate('DietPlan', { calculatedCalorie });
+    await AsyncStorage.setItem('userInputs', JSON.stringify(calculatedCalorie))
+    navigation.navigate('HomeScreen')
   };
 
   return (

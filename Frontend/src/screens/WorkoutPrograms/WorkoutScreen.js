@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
  import { FitnessItems } from "../../components/Context/Context";
 //   import { AntDesign } from '@expo/vector-icons';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import { default_ip_address } from "../../constant/constant";
 
   const WorkOutScreen = () => {
     const route = useRoute();
@@ -55,7 +56,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
             >
               <Image
                 style={{ width: 90, height: 90 }}
-                source={{ uri: `http://192.168.1.67:4000${item.gif_path}`}}
+                source={{ uri: `${default_ip_address}${item.gif_path}`}}
               />
   
               <View style={{ marginLeft: 10 }}>

@@ -5,6 +5,7 @@ import CustomizedInput from '../../components/CustomizedInput/CustomizedInput'
 import CustomButton from '../../components/CustomButtons/CustomButton'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { default_ip_address } from '../../constant/constant'
 
 const genderItems = [
   {label: 'Male', value: 0},
@@ -63,7 +64,8 @@ const InputParameters = () => {
   
           // Check if the parsed data has the expected structure or properties
           if (parsedData) {
-            navigation.navigate('WorkoutPrograms');
+            // navigation.navigate('WorkoutPrograms');
+            navigation.navigate('MaintainCalorie')
           } 
         }
       } catch (error) {
@@ -159,7 +161,7 @@ const InputParameters = () => {
         "Injury": injury,
         "Current_fitness_level": fitnessLevel
       }
-      let result = await fetch('http://192.168.1.67:4000/userInput' , {
+      let result = await fetch(`${default_ip_address}/userInput` , {
         method: "post",
         body: JSON.stringify(userObject),
         headers: {
@@ -172,7 +174,8 @@ const InputParameters = () => {
         setLoading(false)
         await AsyncStorage.setItem('userInputs', JSON.stringify(result))
         // await AsyncStorage.setItem('isData', 'abc')
-        navigation.navigate('WorkoutPrograms', {result})
+        // navigation.navigate('WorkoutPrograms', {result})
+        navigation.navigate('HomeScreen', {result})
 
         setGender('');
         setAge('');

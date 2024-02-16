@@ -25,7 +25,7 @@ const[data,setData]=useState([])
 
   const getDataFromDB = async () => {
     try {
-      let result = await fetch('http://192.168.1.67:4000/workouts', {
+      let result = await fetch('http://6.6.7.224:4000/workouts', {
         method: 'get',
       });
       result = await result.json();

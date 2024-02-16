@@ -131,8 +131,8 @@ const Recipess = ({calculatedCalorie}) => {
       try {
           setLoading(true)
 
-          const appId = '39810eb9';
-          const appKey = 'e3fe97a525230ea92f5324613bf0f2d0';
+          const appId = '96841dc9';
+          const appKey = 'ab137c058e5ec16acee33b211c729c6b';
 
           // const trimmedMealType = selectedMealType.trim()
           console.log(selectedHealthLabel)
@@ -141,6 +141,10 @@ const Recipess = ({calculatedCalorie}) => {
           if(selectedHealthLabel.length===0 && selectedCuisineType.length===0 && selectedMealType==='') {
             console.log('inside if')
             queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&calories=${calories}`;      
+          }else if(selectedCuisineType.length===0 && selectedMealType==='') {
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&calories=${calories}`;      
+          }else if(selectedMealType==='') {
+            queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&calories=${calories}`;     
           }else {
             console.log('inside else')
             // queryParams = `type=public&q=${encodeURIComponent(searchQuery)}&app_id=${appId}&app_key=${appKey}&health=${selectedHealthLabel.map(item => item.value).join('&')}&cuisineType=${selectedCuisineType.map(item => item.value).join('&')}&mealType=${selectedMealType}&calories=${minCalories}-${maxCalories}`;
@@ -196,7 +200,7 @@ const Recipess = ({calculatedCalorie}) => {
       {renderPickerItems(healthLabelsItems)}
     </Picker>
 
-    <Picker selectedValue={selectedMealType} onValueChange={handleMealType} style={styles.picker}>
+    <Picker selectedValue={selectedMealType} onValueChange={handleMealType} style={[styles.picker, {marginTop: 10}]}>
       {renderPickerItems(mealTypeItems)}
     </Picker>
 
@@ -221,11 +225,11 @@ const Recipess = ({calculatedCalorie}) => {
     </TouchableOpacity>
 
     {loading ? (
-      <Text style={{ fontSize: 20, color: 'white' }}>Recipes loading...</Text>
+      <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', marginTop: 10  }}>Recipes loading...</Text>
     ) : (
       <>
         {!filteredRecipes.length ? (
-          <Text style={{ fontSize: 20, color: 'white' }}>No recipes found</Text>
+          <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', marginTop: 10 }}>No recipes found</Text>
         ) : (
           <FlatList
             data={filteredRecipes}
@@ -257,7 +261,7 @@ const styles = StyleSheet.create({
       color: 'white'
     },
     searchButton: {
-      backgroundColor: 'blue',
+      backgroundColor: '#3b71f3',
       padding: 10,
       borderRadius: 5,
       alignItems: 'center',

@@ -1,8 +1,15 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const RecipeItem = ({ recipe }) => {
+  const navigation = useNavigation()
+  const handlePress = () => {
+    console.warn('pressed')
+    navigation.navigate('NutritionFacts')
+  }
   return (
+    <TouchableWithoutFeedback onPress={handlePress}>
     <View style={styles.recipeItem}>
       {recipe.image && (
         <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
@@ -13,8 +20,6 @@ const RecipeItem = ({ recipe }) => {
       <Text>Calories: {recipe.calories.toFixed(2)}</Text>
       <Text>Cuisine: {recipe?.cuisineType.join(', ')}</Text>
       <Text>Meal Type: {recipe?.mealType.join(', ')}</Text>
-      <Text>Dish Type: {recipe?.dishType.join(', ')}</Text>
-      <Text>Health Label: {recipe?.healthLabels.join(', ')}</Text>
       <Text style={styles.ingredientsTitle}>Ingredients:</Text>
       <View style={styles.ingredientsList}>
         {recipe.ingredients.map((ingredient, index) => (
@@ -24,6 +29,7 @@ const RecipeItem = ({ recipe }) => {
         ))}
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -35,6 +41,10 @@ const styles = StyleSheet.create({
     borderColor: '#e8e8e8',
     borderRadius: 5,
     backgroundColor: 'white'
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   recipeImage: {
     width: '100%',

@@ -4,7 +4,7 @@ import Profile from '../../../assets/profile.jpg'
 import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
 
-const Header = () => {
+const Header = ({ name }) => {
 
     const navigation = useNavigation()
 
@@ -25,7 +25,7 @@ const Header = () => {
             <Image source={Profile} style={styles.image} />
         </View>
         <View style={styles.title}>
-            <Text style={styles.heading}>Welcome, Rame</Text>
+            <Text style={styles.heading}>Welcome, {name}</Text>
             <Text style={styles.subHeading}>{currentDate}</Text>
         </View>
         <View>
